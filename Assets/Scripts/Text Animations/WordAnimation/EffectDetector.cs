@@ -6,20 +6,12 @@ using UnityEngine;
 public class EffectDetector : ScriptableObject
 {
     [SerializeField]
-    private List<Effect> effects = new List<Effect>();
+    public List<Effect> effects;
 
-    private Dictionary<char, TextEffect> effectDictionary;
-
-    private void OnValidate()
+    private void Awake()
     {
-        if (effectDictionary == null)
-            effectDictionary = new Dictionary<char, TextEffect>();
-
-        foreach (Effect effect in effects)
-        {
-            if (!effectDictionary.ContainsKey(effect.specialCharacter))
-                effectDictionary.Add(effect.specialCharacter, effect.effect);
-        }
+        if (effects == null)
+            effects = new List<Effect>();
     }
 }
 
@@ -27,11 +19,11 @@ public class EffectDetector : ScriptableObject
 public class Effect
 {
     public char specialCharacter;
-    public TextEffect effect;
+    public EffectTypes effect;
+}
 
-    public Effect(char specialCharacter, TextEffect effect)
-    {
-        this.specialCharacter = specialCharacter;
-        this.effect = effect;
-    }
+public enum EffectTypes
+{
+    Test,
+    None
 }

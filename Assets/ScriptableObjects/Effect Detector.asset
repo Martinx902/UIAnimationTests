@@ -12,4 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 091497fe583b63447b34f8a43b4299be, type: 3}
   m_Name: Effect Detector
   m_EditorClassIdentifier: 
-  effects: []
+  effects:
+  - specialCharacter: 37
+    effect: 0
+  - specialCharacter: 47
+    effect: 1
