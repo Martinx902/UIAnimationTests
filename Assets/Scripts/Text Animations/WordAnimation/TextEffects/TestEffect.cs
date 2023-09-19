@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class TestEffect : TextEffect
 {
-    // Start is called before the first frame update
     private void Start()
     {
         Debug.Log("Hello World");

@@ -17,26 +17,38 @@ public class TextAnimator : MonoBehaviour
 
     private Dictionary<WordData, TextEffect> specialAnimations;
 
+    private List<int> wordIndexes;
+    private List<int> wordLengths;
+
+    private void Awake()
+    {
+        if (specialAnimations == null)
+            specialAnimations = new Dictionary<WordData, TextEffect>();
+    }
+
     // Start is called before the first frame update
     private void Start()
     {
         textMesh = GetComponent<TMP_Text>();
 
+        wordIndexes = new List<int> { 0 };
+        wordLengths = new List<int>();
+
         string s = textMesh.text;
+
+        GetTextWords(s);
 
         //Detect special characters in the text
 
         foreach (Effect effect in effectDetector.effects)
         {
-            //Ver si el caracter expuesto es un char esp
-
             if (s.Contains(effect.specialCharacter))
             {
-                //Si lo contiene registrar todos sus indexes
+                //Get all the positions of the char in the text
 
                 int[] indexes = AllIndexesOf(s, effect.specialCharacter.ToString()).ToArray();
 
-                //Ir desde el primer index hasta el segundo index recogiendo los datos de por medio
+                //Get the word between the chars for every par of them there is
 
                 int lastCharFrom = 0;
 
@@ -59,15 +71,18 @@ public class TextAnimator : MonoBehaviour
 
                     //Save the word and the text effect linked to it
 
+                    WordData w = new WordData(s.IndexOf(result[0]), result.Length);
+
+                    TextEffect te = new TextEffect();
+
+                    //TBD: Create the Text Effect generator based on the enum and call it here.
+
+                    specialAnimations.Add(w, te);
+
                     Debug.Log(result);
                 }
             }
         }
-    }
-
-    // Update is called once per frame
-    private void Update()
-    {
     }
 
     public static IEnumerable<int> AllIndexesOf(string str, string searchstring)
@@ -78,5 +93,19 @@ public class TextAnimator : MonoBehaviour
             yield return minIndex;
             minIndex = str.IndexOf(searchstring, minIndex + searchstring.Length);
         }
+    }
+
+    private void GetTextWords(string text)
+    {
+        string s = textMesh.text;
+
+        for (int index = s.IndexOf(' '); index > -1; index = s.IndexOf(' ', index + 1))
+        {
+            wordLengths.Add(index - wordIndexes[wordIndexes.Count - 1]);
+
+            wordIndexes.Add(index + 1);
+        }
+
+        wordLengths.Add(s.Length - wordIndexes[wordIndexes.Count - 1]);
     }
 }

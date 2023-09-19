@@ -6,14 +6,18 @@ public class WordData
 {
     public Color wordColor;
 
-    public int[] charIndexes;
+    public float wordScale;
 
-    public Vector3[] vertices;
+    public int startingWordIndex;
 
-    public WordData(Color wordColor, int[] charIndexes, Vector3[] vertices)
+    public int wordLength;
+
+    private Vector3[] charVertices;
+
+    public WordData(int startingWordIndex, int wordLength, float wordScale = 1)
     {
-        this.wordColor = wordColor;
-        this.charIndexes = charIndexes;
-        this.vertices = vertices;
+        this.startingWordIndex = startingWordIndex;
+        this.wordLength = wordLength;
+        this.wordScale = wordScale;
     }
 }
